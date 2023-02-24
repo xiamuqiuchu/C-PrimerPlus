@@ -12,7 +12,7 @@ int main()
    j = 50000;
  
    i = j;
-   cout << i << " ceshi" << j;
+   cout << i << " 1753ceshi" << j;
  
    return 0;
 }
