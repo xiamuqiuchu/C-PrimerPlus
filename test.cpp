@@ -1,18 +1,10 @@
 #include <iostream>
+ 
 using namespace std;
  
-/* 
- * 这个程序演示了有符号整数和无符号整数之间的差别
-*/
-int main()
+int main( )
 {
-   short int i;           // 有符号短整数
-   short unsigned int j;  // 无符号短整数
+   char str[] = "Unable to read....";
  
-   j = 50000;
- 
-   i = j;
-   cout << i << " 1753urewnjio2435451833二2ce565s更2389ujj23487任3换hi" << j;
- 
-   return 0;
+   cerr << "Error message : " << str << endl;
 }
