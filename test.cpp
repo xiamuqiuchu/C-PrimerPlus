@@ -1,44 +1,30 @@
 #include <iostream>
-#include <cstdlib>
-#include <pthread.h>
- 
+#include <vector>
 using namespace std;
- 
-#define NUM_THREADS     5
- 
-struct thread_data{
-   int thread_id;
-   char *message;
-};
-
-void *PrintHello(void * threadarg)
-{
-   struct thread_data *my_data;
-
-   my_data = (struct thread_data *)threadarg;
-   cout << "thread id : " << my_data->thread_id;
-   cout << " message: " << my_data->message << endl;
-   pthread_exit(NULL);
-}
 
 int main()
 {
-   pthread_t threads[NUM_THREADS];
-   struct thread_data td[NUM_THREADS];
-   int rc;
+   vector<int> vec;
    int i;
 
-   for(i = 0;i< NUM_THREADS;i++)
+   cout << "vector size = " << vec.size() << endl;
+   for(i = 0;i<5;i++)
    {
-      cout << "main(): createing thread, " << i << endl;
-      td[i].thread_id= i;
-      td[i].message = (char*)"this is message";
-      rc = pthread_create(&threads[i],NULL,PrintHello,(void*)&td[i]);
-      if (rc){
-         cout << "error: "<< rc << endl;
-         exit(-1);
-      }
-
+      vec.push_back(i);
    }
-   pthread_exit(NULL);
+
+   cout << "vector size = " << vec.size() << endl;
+
+   for(i = 0; i< 5;i++)
+   {
+      cout << " value of vec [" << i << "] = " << vec[i] << endl;
+   }
+
+   vector<int>::iterator v = vec.begin();
+   while(v != vec.end())
+   {
+      cout << "value of v = " << *v << endl;
+      v++;
+   }
+   return 0;
 }
