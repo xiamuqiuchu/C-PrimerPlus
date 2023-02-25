@@ -1,27 +1,44 @@
 #include <iostream>
+#include <cstdlib>
+#include <pthread.h>
+ 
 using namespace std;
-#define DEBUG
  
-#define MIN(a,b) (((a)<(b)) ? a : b)
+#define NUM_THREADS     5
  
-int main ()
+struct thread_data{
+   int thread_id;
+   char *message;
+};
+
+void *PrintHello(void * threadarg)
 {
-   int i, j;
-   i = 100;
-   j = 30;
-#ifdef DEBUG
-   cerr <<"Trace: Inside main function" << endl;
-#endif
- 
-#if 0
-   /* 这是注释部分 */
-   cout << MKSTR(HELLO C++) << endl;
-#endif
- 
-   cout <<"The minimum is " << MIN(i, j) << endl;
- 
-#ifdef DEBUG
-   cerr <<"Trace: Coming out of main function" << endl;
-#endif
-    return 0;
+   struct thread_data *my_data;
+
+   my_data = (struct thread_data *)threadarg;
+   cout << "thread id : " << my_data->thread_id;
+   cout << " message: " << my_data->message << endl;
+   pthread_exit(NULL);
+}
+
+int main()
+{
+   pthread_t threads[NUM_THREADS];
+   struct thread_data td[NUM_THREADS];
+   int rc;
+   int i;
+
+   for(i = 0;i< NUM_THREADS;i++)
+   {
+      cout << "main(): createing thread, " << i << endl;
+      td[i].thread_id= i;
+      td[i].message = (char*)"this is message";
+      rc = pthread_create(&threads[i],NULL,PrintHello,(void*)&td[i]);
+      if (rc){
+         cout << "error: "<< rc << endl;
+         exit(-1);
+      }
+
+   }
+   pthread_exit(NULL);
 }
