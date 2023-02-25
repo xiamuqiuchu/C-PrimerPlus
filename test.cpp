@@ -1,59 +1,53 @@
 #include <iostream>
-#include <vector>
+ 
 using namespace std;
-
-class Box
+ 
+class Line
 {
    public:
-      double length;
-      double breadth;
-      double height;
+      int getLength(void);
+      Line(int len);
+      Line(const Line &obj);
+      ~Line();
 
-      double getVolume(void);
-      void  setLength(double len);
-      void setBreadth(double bre);
-      void setHeight(double hei);
-
+   private:
+         int *ptr;
 };
 
-double Box::getVolume(void)
+Line::Line(int len)
 {
-   return length * breadth * height;
+   cout<< "调用构造函数"<< endl;
+
+   ptr = new int;
+   *ptr = len;
 }
 
-void Box::setLength(double len)
+Line::Line(const Line &obj)
 {
-   length = len;
+   cout << "调用拷贝构造函数并为指针ptr 分配内存"<< endl;
+   ptr = new int;
+   *ptr = *obj.ptr;
+
+}
+Line::~Line(void)
+{
+   cout << "释放内存"<<endl;
+   delete ptr;
 }
 
-void Box::setBreadth(double bre)
+int Line::getLength(void)
 {
-   breadth = bre;
+   return *ptr;
 }
 
-void Box::setHeight(double hei)
+void display(Line obj)
 {
-   height = hei;
+   cout << "Line大小: "<< obj.getLength()<< endl;
 }
 
 int main()
 {
-   Box Box1;
-   Box Box2;
-   double volume = 0.0;
-
-   Box1.setLength(6.0);
-   Box1.setBreadth(7.0);
-   Box1.setHeight(5.0);
-
-   Box2.setLength(12.0);
-   Box2.setBreadth(13.0);
-   Box2.setHeight(10.0);
-
-   volume = Box1.getVolume();
-   cout << "Box1 = " << volume << endl;
-
-   volume = Box2.getVolume();
-   cout << "Box2 = " << volume << endl;
+   Line line(10);
+   display(line);
    return 0;
 }
