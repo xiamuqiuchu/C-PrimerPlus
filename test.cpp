@@ -1,53 +1,55 @@
 #include <iostream>
- 
-using namespace std;
- 
-class Line
-{
-   public:
-      int getLength(void);
-      Line(int len);
-      Line(const Line &obj);
-      ~Line();
 
-   private:
-         int *ptr;
+using namespace std;
+
+class Shape
+{
+   protected:
+      int width,height;
+   public:
+      Shape(int a = 0,int b = 0)
+      {
+         width = a;
+         height = b;
+      }
+     virtual int area()
+      {
+         cout << "Parent class area : " << endl;
+         return 0;
+      }
 };
 
-Line::Line(int len)
+class Rectangle:public Shape
 {
-   cout<< "调用构造函数"<< endl;
+   public:
+      Rectangle(int a= 0,int b = 0):Shape(a,b){}
+      int area()
+      {
+         cout << " Rectangle class area :" << endl;
+         return (width *height);
+      }
+};
 
-   ptr = new int;
-   *ptr = len;
-}
-
-Line::Line(const Line &obj)
+class Triangle:public Shape
 {
-   cout << "调用拷贝构造函数并为指针ptr 分配内存"<< endl;
-   ptr = new int;
-   *ptr = *obj.ptr;
-
-}
-Line::~Line(void)
-{
-   cout << "释放内存"<<endl;
-   delete ptr;
-}
-
-int Line::getLength(void)
-{
-   return *ptr;
-}
-
-void display(Line obj)
-{
-   cout << "Line大小: "<< obj.getLength()<< endl;
-}
+   public: 
+      Triangle( int a = 0,int b = 0):Shape(a,b){}
+      int area()
+      {
+         cout << "Triangle class area :" << endl;
+         return (width * height /2);
+      }
+};
 
 int main()
 {
-   Line line(10);
-   display(line);
+   Shape *shape;
+   Rectangle rec(10,7);
+   Triangle tri(10,5);
+
+   shape = &rec;
+   shape->area();
+   shape = &tri;
+   shape->area();
    return 0;
 }
