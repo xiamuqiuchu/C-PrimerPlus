@@ -1,55 +1,73 @@
 #include <iostream>
-
+#include <string.h>
 using namespace std;
 
-class Shape
-{
-   protected:
-      int width,height;
-   public:
-      Shape(int a = 0,int b = 0)
-      {
-         width = a;
-         height = b;
-      }
-     virtual int area()
-      {
-         cout << "Parent class area : " << endl;
-         return 0;
-      }
-};
-
-class Rectangle:public Shape
+class String
 {
    public:
-      Rectangle(int a= 0,int b = 0):Shape(a,b){}
-      int area()
-      {
-         cout << " Rectangle class area :" << endl;
-         return (width *height);
-      }
+      String(const char * str = NULL);
+      String(const String &str);
+      String & operator=(const String &str);
+      ~String();
+   private:
+      char* m_data;
 };
 
-class Triangle:public Shape
+String::String(const char* str)
 {
-   public: 
-      Triangle( int a = 0,int b = 0):Shape(a,b){}
-      int area()
+   if(str ==NULL)
+   {
+      m_data=new char[1];
+      if(m_data ==NULL)
       {
-         cout << "Triangle class area :" << endl;
-         return (width * height /2);
+         cout <<"shibai" << endl;
+         exit(1);
       }
-};
+      m_data[0] = '\0';
+   }else{
+      int length = strlen(str);
+      m_data=new char[length+1];
+      if(m_data==NULL)
+      {
+         cout<< "shibai" <<endl;
+         exit(1);
+      }
+      strcpy(m_data,str);
+   }
+}
 
-int main()
+String::String(const String &other)
 {
-   Shape *shape;
-   Rectangle rec(10,7);
-   Triangle tri(10,5);
+   int length = strlen(other.m_data);
+   m_data = new char[length+1];
+   if(m_data ==NULL)
+   {
+      cout << "shibai" << endl;
+      exit(1);
+   }
+   strcpy(m_data,other.m_data);
+}
 
-   shape = &rec;
-   shape->area();
-   shape = &tri;
-   shape->area();
-   return 0;
+String& String::operator=(const String &other)
+{
+   if(this==&other)
+   {
+      return *this;
+   }
+   delete [] m_data;
+   int length = strlen(other.m_data);
+   m_data = new char[length+1];
+   if(m_data ==NULL)
+   {
+      cout << "shibai" << endl;
+      exit(1);
+   }
+   strcpy(m_data,other.m_data);
+   return *this;
+}
+
+
+String::~String()
+{
+   delete [] m_data;
 }
